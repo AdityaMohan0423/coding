@@ -33,6 +33,23 @@ public:
             return dp[i][par] = max(take,notTake);
         };
 
-        return dfs(1,0);
+        // return dfs(1,0);
+
+        //tabulation.
+        vector<vector<int>> DP(n+2,vector<int> (n+1,0));
+        
+        for(int i = n; i > 0; i--){
+            for(int j = n; j >= 0; j--){
+                int take = 0;
+                if(j == 0 || ((nums[j-1].size() == nums[i-1].size()-1) && compare(nums[j-1],nums[i-1]))){
+                    take = 1 + DP[i+1][i];
+                }
+                int notTake = DP[i+1][j];
+
+                DP[i][j] = max(take,notTake);
+            }
+        }
+
+        return DP[1][0];
     }
 };
