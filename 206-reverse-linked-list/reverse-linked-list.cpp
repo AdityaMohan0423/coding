@@ -8,23 +8,25 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
- ListNode* newHead = NULL;
 class Solution {
 public:
-    ListNode* reverseKero(ListNode* head){
-        if(!head->next){
-            newHead = head;
-            return head;
-        }
-        ListNode* gotIt = reverseKero(head->next);
-        gotIt->next = head;
-        head->next = NULL;
-        return head;
-    }
     ListNode* reverseList(ListNode* head) {
         if(!head) return head;
-        reverseKero(head);
-        return newHead;
+        
+        vector<int> arr;
+        ListNode* temp = head;
+
+        while(temp){
+            arr.push_back(temp->val);
+            temp = temp->next;
+        }
+
+        temp = head;
+        for(int i = arr.size()-1; i >= 0; i--){
+            temp->val = arr[i];
+            temp = temp->next;
+        }
+
+        return head;
     }
 };
