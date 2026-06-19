@@ -12,21 +12,18 @@ class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
         if(!head) return head;
-        
-        vector<int> arr;
-        ListNode* temp = head;
+      ListNode* prev = NULL;
+      ListNode* curr = head;
+      ListNode* nexti = head->next;
 
-        while(temp){
-            arr.push_back(temp->val);
-            temp = temp->next;
+        while(nexti){
+            curr->next = prev;
+            prev = curr;
+            curr = nexti;
+            nexti = nexti->next;
         }
+        curr->next = prev;
 
-        temp = head;
-        for(int i = arr.size()-1; i >= 0; i--){
-            temp->val = arr[i];
-            temp = temp->next;
-        }
-
-        return head;
+        return curr;
     }
 };
