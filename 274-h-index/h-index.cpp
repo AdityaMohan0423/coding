@@ -9,7 +9,7 @@ public:
 
         int maxi = 0;
 
-        for(int i = 1; i <= maxEl; i++){
+        for(int i = 1; i <= n; i++){
             int ind = lower_bound(citations.begin(),citations.end(),i)-citations.begin();
 
             if(i <= n-ind) maxi = max(maxi,i);
