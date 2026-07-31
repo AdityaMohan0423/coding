@@ -1,35 +1,15 @@
 class Solution {
 public:
     int minimumPushes(string word) {
-        vector<int> v(26,0);
-        for(int i = 0; i < word.size(); i++){
-            v[word[i]-'a']++;
-        }
+        unordered_map<char,int> mpp;
+        for(int i = 0; i < word.size(); i++) mpp[word[i]]++;
+        int uni = mpp.size();
 
-        sort(v.begin(),v.end(),[](int &a, int &b){
-            return a > b;
-        });
+        if(uni <= 8) return uni;
+        else if(uni > 8 && uni <= 16) return 8 + 2*(uni-8);
+        else if(uni > 16 && uni <= 24) return 8 + 16 + 3*(uni-16);
+        else return 8 + 16 + 24 + 4*(uni-24);
 
-        int total = 0;
-
-        for(int i = 0; i < 8; i++){
-            if(v[i] > 0) total += 1;
-            else break;
-        }
-        for(int i = 8; i < 16; i++){
-            if(v[i] == 0) break;
-            total += 2*v[i];
-        }
-        for(int i = 16; i < 24; i++){
-            if(v[i] == 0) break;
-            total += 3*v[i];
-        }
-        for(int i = 24; i < 26; i++){
-            if(v[i] == 0) break;
-            total += 4*v[i];
-        }
-
-
-        return total;
+        return -1;
     }
 };
