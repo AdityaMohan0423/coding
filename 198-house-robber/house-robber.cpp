@@ -16,15 +16,19 @@ public:
         //     return dp[i] = max(rob,skip);
         // };
         // return dfs(0);
+        
+        int prevprev = -1;
+        int prev = nums[0];
 
-        vector<int> dp(n,0);
-        dp[0] = nums[0];
 
         for(int i = 1; i < n; i++){
-            dp[i] = dp[i-1];
-            dp[i] = max(dp[i],nums[i] + (i > 1 ? dp[i-2] : 0));
+            int curr = prev;
+            curr = max(curr,nums[i] + (i > 1 ? prevprev : 0));
+
+            prevprev = prev;
+            prev = curr;
         }
 
-        return dp[n-1];
+        return prev;
     }
 };
