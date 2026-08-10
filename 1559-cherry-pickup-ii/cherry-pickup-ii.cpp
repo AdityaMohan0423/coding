@@ -8,7 +8,7 @@ public:
  
 
         function<int(int,int, int)> dfs = [&](int i,int j1, int j2){
-            if(j1 == j2) return 0;
+
             if(i == n-1) return ( (j1 == j2) ? grid[i][j1] : grid[i][j1] + grid[i][j2]);
 
             if(dp[i][j1][j2] != -1) return dp[i][j1][j2];
