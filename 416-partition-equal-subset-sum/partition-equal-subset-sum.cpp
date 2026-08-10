@@ -8,22 +8,21 @@ public:
             total_sum += nums[i];
         }
 
-        vector<vector<int>> dp(n,vector<int> (total_sum+1,-1));
-        function<bool(int,int)> dfs = [&](int i, int sum){
-            if(sum > total_sum-sum || i >= n) return false;
-            if(sum == total_sum-sum) return true;
+        if(total_sum%2 != 0) return false;
 
-            if(dp[i][sum] != -1) return ((dp[i][sum] == 0) ? false : true);
+        vector<vector<bool>> dp(n+1,vector<bool> (total_sum/2 + 1 ,0));
 
-            bool take = dfs(i+1,sum + nums[i]);
-            bool notTake = dfs(i+1,sum);
+        for(int i = 0; i <= n; i++){
+            dp[i][0] = true;
+        }
 
-            bool ans = take || notTake;
-            dp[i][sum] = ((ans == false) ? 0 : 1);
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= total_sum/2; j++){
+                dp[i][j] = dp[i-1][j];
+                if(j >= nums[i-1]) dp[i][j] = dp[i][j] || dp[i-1][j-nums[i-1]];
+            }
+        }
 
-            return ans; 
-        };
-
-        return dfs(0,0);
+        return dp[n][total_sum/2];
     }
 };
