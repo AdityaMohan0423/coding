@@ -4,23 +4,30 @@ public:
         int n1 = text1.size();
         int n2 = text2.size();
 
-        vector<vector<int>> dp(n1,vector<int> (n2,-1));
+        vector<vector<int>> dp(n1+1,vector<int> (n2+1,0));
 
-        function<int(int,int)> dfs = [&](int i, int j){
-            if(i == n1 || j == n2) return 0;
+        // function<int(int,int)> dfs = [&](int i, int j){
+        //     if(i == n1 || j == n2) return 0;
 
-            if(dp[i][j] != -1) return dp[i][j];
+        //     if(dp[i][j] != -1) return dp[i][j];
 
-            int total = 0;
-            if(text1[i] == text2[j]){
-                total = 1 + dfs(i+1,j+1);
-            }else{
-                total = max(dfs(i+1,j),dfs(i,j+1));
+        //     int total = 0;
+        //     if(text1[i] == text2[j]){
+        //         total = 1 + dfs(i+1,j+1);
+        //     }else{
+        //         total = max(dfs(i+1,j),dfs(i,j+1));
+        //     }
+
+        //     return dp[i][j] = total;
+        // };
+
+        for(int i = 1; i <= n1; i++){
+            for(int j = 1; j <= n2; j++){
+                if(text1[i-1] == text2[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
+                else dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
             }
+        }
 
-            return dp[i][j] = total;
-        };
-
-        return dfs(0,0);
+        return dp[n1][n2];
     }
 };
