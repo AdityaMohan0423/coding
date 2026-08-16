@@ -1,19 +1,5 @@
 class Solution {
 public:
-    void dfs(int node, int &flag,vector<vector<int>> &adj,vector<int> &vis){
-        vis[node] = 1;
-
-            for(int i = 0; i < adj[node].size(); i++){
-                int child = adj[node][i];
-                if(vis[child] == 1){
-                    flag = 1;
-                    return;
-                }
-                dfs(child,flag,adj,vis);
-            }
-
-            if(flag == 0) vis[node] = 2;
-    }
 
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size();
@@ -26,17 +12,19 @@ public:
             }
         }
 
-        function<bool(int)> dfs = [&](int node){
-            vis[node] = 1;
+        map<int,bool> mpp;
 
-            bool isCycle = false;
+        function<bool(int)> dfs = [&](int node){
+            mpp[node] = false;
+
+            bool isBad = false;
             for(int i = 0; i < adj[node].size(); i++){
                 int child = adj[node][i];
-                if(vis[child] == 1) return true;
-                if(!vis[child]) isCycle = isCycle || dfs(child);
+                if(mpp.find(child) != mpp.end() && mpp[child] == false) isBad = true;
+                if(mpp.find(child) == mpp.end()) isBad = isBad || dfs(child); 
             }
-            if(!isCycle) vis[node] = 2;
-            return isCycle;
+            if(!isBad) mpp[node] = true;
+            return isBad;
         };
 
         for(int i = 0; i < n; i++){
@@ -44,8 +32,8 @@ public:
         }
 
         vector<int> ans;
-        for(int i = 0; i < n; i++){
-            if(vis[i] == 2) ans.push_back(i);
+        for(auto it:mpp){
+            if(it.second == true) ans.push_back(it.first);
         }
 
         return ans;
