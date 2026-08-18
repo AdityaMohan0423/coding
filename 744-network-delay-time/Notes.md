@@ -1,1 +1,1 @@
-<h2>network-delay-time Notes</h2><hr>[ Time taken: 36m 27s ]
+<h2>network-delay-time Notes</h2><hr>[ Time taken: 9m 48s ]
